@@ -433,6 +433,7 @@ namespace BTF.GUI
             btn_applications_stop.Enabled = true;
             btn_applications_start.Enabled = true;
             btn_applications_remove.Enabled = true;
+            btn_applications_export.Enabled = true;
         }
 
         private void btn_applications_stop_Click(object sender, EventArgs e)
