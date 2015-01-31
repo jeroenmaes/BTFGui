@@ -19,7 +19,7 @@ Use it on your BizTalk Server to quickly do some administration, without the nee
  * Export MSI's
 
 ## How does it work?
-The application is just a simple C# Winforms app that usses the [BizTalkFactory Management Automation SDK](https://psbiztalk.codeplex.com/#biztalkfactory_management_automation) to do most of its magic.
+The application is just a simple C# Winforms app that uses the [BizTalkFactory Management Automation SDK](https://psbiztalk.codeplex.com/#biztalkfactory_management_automation) to do it tasks.
 
 ## Disclaimer
 Make sure to have a backup of your complete environment when using this tool! Use at own risk...
