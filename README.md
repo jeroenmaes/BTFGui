@@ -25,7 +25,7 @@ The application is just a simple C# Winforms app that usses the [BizTalkFactory 
 Make sure to have a backup of your complete environment when using this tool! Use at own risk...
 
 ## LICENSE
-BTFGui is licensed under the [MIT License](https://github.com/joenmaes/BTFGui/blob/master/LICENSE.txt) ([OSI](http://www.opensource.org/licenses/mit-license.php)). Basically you're free to do whatever you want with it. Attribution not necessary but appreciated.
+BTFGui is licensed under the [MIT License](https://github.com/joenmaes/BTFGui/blob/master/LICENSE) ([OSI](http://www.opensource.org/licenses/mit-license.php)). Basically you're free to do whatever you want with it. Attribution not necessary but appreciated.
 
 ## Dependencies
 BTFGui depends on the [BizTalkFactory PowerShell Provider](https://psbiztalk.codeplex.com). It works with version 1.4.0.1. Download and install it.
