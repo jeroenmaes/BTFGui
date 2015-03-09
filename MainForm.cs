@@ -21,6 +21,7 @@ namespace BTF.GUI
     {
         private string SqlServerName { get; set; }
         private string BizTalkDatabaseName { get; set; }
+        private bool AutoConnectOnStartup { get; set; }
         
         private static BtsCatalog _catalog;
         private static string _btsServer;
@@ -34,6 +35,7 @@ namespace BTF.GUI
         private readonly BackgroundWorker _workerRestartHostInstances;
         private readonly BackgroundWorker _workerRemoveApplications;
         private readonly BackgroundWorker _workerExportApplications;
+        //private readonly BackgroundWorker _workerConnectServer;
 
         private BindingList<HostInstance> _hostInstances;
         private BindingList<BApplication> _applications;
@@ -42,6 +44,7 @@ namespace BTF.GUI
         {
             InitializeComponent();
 
+            GetAutoConnectFromConfiguration();
             GetSqlServerNameFromConfiguration();
             GetBizTalkDatabaseNameFromConfiguration();
 
@@ -84,6 +87,16 @@ namespace BTF.GUI
             _workerExportApplications.DoWork += ExportApplications;
             _workerExportApplications.ProgressChanged += WorkerChangedUpdateLog;
             _workerExportApplications.RunWorkerCompleted += WorkerExportApplicationsCompleted;
+
+            //AutoConnect
+            if (AutoConnectOnStartup)
+            {
+                ConnectServer();
+
+                SetHealthInformation();
+                RefreshApplications();
+                RefreshHostInstances();
+            }
         }
 
         private void GetBizTalkDatabaseNameFromConfiguration()
@@ -110,6 +123,18 @@ namespace BTF.GUI
             }
         }
 
+        private void GetAutoConnectFromConfiguration()
+        {
+            try
+            {
+                AutoConnectOnStartup = Boolean.Parse(ConfigurationManager.AppSettings.Get("enableAutoConnect"));
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+        }
+
         private void SetGridStyle()
         {
             dgv_applications.AutoGenerateColumns = false;
@@ -117,7 +142,7 @@ namespace BTF.GUI
             var colSelected = new DataGridViewCheckBoxColumn();
             colSelected.DataPropertyName = "Selected";
             colSelected.HeaderText = string.Empty;
-            colSelected.ReadOnly = true;
+            //colSelected.ReadOnly = true;
             colSelected.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
 
             dgv_applications.Columns.Add(colSelected);
@@ -154,7 +179,7 @@ namespace BTF.GUI
             var colSelected = new DataGridViewCheckBoxColumn();
             colSelected.DataPropertyName = "Selected";
             colSelected.HeaderText = string.Empty;
-            colSelected.ReadOnly = true;
+            //colSelected.ReadOnly = true;
             colSelected.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
 
             dgv_hostinstances.Columns.Add(colSelected);
@@ -244,6 +269,8 @@ namespace BTF.GUI
         private void WorkerRestartHostInstancesCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             btn_hostinstances_restart.Enabled = true;
+
+            RefreshHostInstances();
         }
 
         private void WorkerRemoveApplicationsCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -283,7 +310,7 @@ namespace BTF.GUI
 
         private void btn_server_connect_Click(object sender, EventArgs e)
         {
-           ConnectServer();
+            ConnectServer();
 
             lbl_server_c.Text = _catalog.Instance;
             lbl_database_c.Text = _catalog.Database;
@@ -411,6 +438,9 @@ namespace BTF.GUI
                         References = app.References.Any(),
                         Resources = new List<string>()
                     };
+
+                    if (app.Status == BtsApplicationStatus.NotApplicable)
+                        appp.Selected = false;
 
                     foreach (var res in app.Resources)
                     {
