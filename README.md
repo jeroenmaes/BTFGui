@@ -1,12 +1,6 @@
-<<<<<<< HEAD
-# BTFGui
-A simple windows GUI for managing BizTalk Server, built upon the BizTalkFactory Management Automation SDK (https://psbiztalk.codeplex.com).
-Use it on your (Development) BizTalk Server to quickly do some administration, without the need to use the often slow BizTalk Management Console.
-=======
 # BTFGui [![Build status](https://ci.appveyor.com/api/projects/status/mdnke51a2p0590xw?svg=true)](https://ci.appveyor.com/project/joenmaes/btfgui)
-A simple windows GUI for managing BizTalk Server, built upon the BizTalkFactory Management Automation SDK.
-Use it on your BizTalk Server to quickly do some administration, without the need to use the slow BizTalk Management Console.
->>>>>>> origin/master
+A simple windows GUI for managing BizTalk Server, built upon the BizTalkFactory Management Automation SDK (https://psbiztalk.codeplex.com).
+Use it on your (Development) BizTalk Server to quickly do some administration, without the need to use the often slow BizTalk Management Console
 
 ![BTF GUI 0.1](http://i.imgur.com/xRezISe.png)
 
