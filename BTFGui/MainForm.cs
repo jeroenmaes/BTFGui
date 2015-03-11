@@ -12,10 +12,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using BizTalkFactory.Management.Automation;
-using BTF.GUI.BO;
-using BTF.GUI.Properties;
+using BTFGui.ObjectModel;
+using BTFGui.Converters;
+using BTFGui.Properties;
+using BTFGui.Enums;
 
-namespace BTF.GUI
+namespace BTFGui
 {
     public partial class MainForm : Form
     {
@@ -33,12 +35,14 @@ namespace BTF.GUI
 
         private readonly BackgroundWorker _workerStopHostInstances;
         private readonly BackgroundWorker _workerRestartHostInstances;
+
         private readonly BackgroundWorker _workerRemoveApplications;
         private readonly BackgroundWorker _workerExportApplications;
-        //private readonly BackgroundWorker _workerConnectServer;
+
+        private readonly BackgroundWorker _workerConnectServer;
 
         private BindingList<HostInstance> _hostInstances;
-        private BindingList<BApplication> _applications;
+        private BindingList<BizTalkApplication> _applications;
 
         public MainForm()
         {
@@ -60,7 +64,7 @@ namespace BTF.GUI
             _hostInstances = new BindingList<HostInstance>();
             dgv_hostinstances.DataSource = _hostInstances;
 
-            _applications = new BindingList<BApplication>();
+            _applications = new BindingList<BizTalkApplication>();
             dgv_applications.DataSource = _applications;
 
             // set bgWorkers
@@ -88,14 +92,16 @@ namespace BTF.GUI
             _workerExportApplications.ProgressChanged += WorkerChangedUpdateLog;
             _workerExportApplications.RunWorkerCompleted += WorkerExportApplicationsCompleted;
 
+            _workerConnectServer = new BackgroundWorker();
+            _workerConnectServer.WorkerReportsProgress = true;
+            _workerConnectServer.DoWork += ConnectServer;
+            _workerConnectServer.ProgressChanged += WorkerChangedUpdateLog;
+            _workerConnectServer.RunWorkerCompleted += WorkerConnectServerCompleted;
+
             //AutoConnect
             if (AutoConnectOnStartup)
             {
-                ConnectServer();
-
-                SetHealthInformation();
-                RefreshApplications();
-                RefreshHostInstances();
+                _workerConnectServer.RunWorkerAsync();
             }
         }
 
@@ -285,6 +291,17 @@ namespace BTF.GUI
             btn_applications_export.Enabled = true;
         }
 
+        private void WorkerConnectServerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            SetHealthInformation();
+            RefreshApplications();
+            RefreshHostInstances();
+
+            lbl_server_c.Text = _catalog.Instance;
+            lbl_database_c.Text = _catalog.Database;
+            lbl_group_c.Text = _catalog.Name;
+        }
+
         private void WriteToLog(string message)
         {
             if (string.IsNullOrWhiteSpace(message))
@@ -310,7 +327,7 @@ namespace BTF.GUI
 
         private void btn_server_connect_Click(object sender, EventArgs e)
         {
-            ConnectServer();
+            //ConnectServer();
 
             lbl_server_c.Text = _catalog.Instance;
             lbl_database_c.Text = _catalog.Database;
@@ -323,6 +340,16 @@ namespace BTF.GUI
             SetHealthInformation();
             RefreshApplications();
             RefreshHostInstances();
+        }
+
+        private void ConnectServer(object sender, DoWorkEventArgs e)
+        {
+            var bgWorker = (BackgroundWorker)sender;
+            bgWorker.ReportProgress(1, string.Format("Connect to BizTalk: {0}.", SqlServerName));
+
+            _catalog = BtsCatalog.Connect(SqlServerName, BizTalkDatabaseName);
+
+            bgWorker.ReportProgress(100, "Connection success.");
         }
 
         private void ConnectServer()
@@ -429,7 +456,7 @@ namespace BTF.GUI
 
                 if (!_btsAppsToIgnore.Contains(app.Name))
                 {
-                    var appp = new BApplication
+                    var appp = new BizTalkApplication
                     {
                         Name = app.Name,                        
                         Selected = true,
@@ -488,13 +515,13 @@ namespace BTF.GUI
                 if (appRef.Status == BtsApplicationStatus.Started ||
                     appRef.Status == BtsApplicationStatus.PartiallyStarted)
                 {
-                    app.Status = BApplicationStatus.PartiallyStarted;
+                    app.Status = ApplicationStatus.PartiallyStarted;
                     WriteToLog(String.Format("Stopping Application '{0}'...", app.Name));
 
                     appRef.Stop(BtsApplicationStopOption.StopAll);
 
                     WriteToLog(String.Format("Application '{0}' Stopped.", app.Name));
-                    app.Status = BApplicationStatus.Stopped;
+                    app.Status = ApplicationStatus.Stopped;
                 }
                 else
                 {
@@ -541,6 +568,8 @@ namespace BTF.GUI
 
             btn_applications_start.Enabled = false;
         }
+
+      
 
         private void StopHostInstances(object sender, DoWorkEventArgs e)
         {
@@ -695,7 +724,7 @@ namespace BTF.GUI
                 {
                     var s = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 
-                    var sp = s + "\\BTF.GUI\\Binding Files\\";
+                    var sp = s + "\\BTFGui\\Binding Files\\";
                     var spp = sp + app.Name + string.Format(".{0:yyyy-MM-dd_HH-mm-ss}", DateTime.Now) +
                               ".BindingInfo.xml";
                     _catalog.Applications[app.Name].ExportBinding(spp, true);
@@ -721,7 +750,7 @@ namespace BTF.GUI
                 {
                     var s = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 
-                    var sp = s + "\\BTF.GUI\\Binding Files\\";
+                    var sp = s + "\\BTFGui\\Binding Files\\";
                     var spp = sp + app.Name + string.Format(".{0:yyyy-MM-dd_HH-mm-ss}", DateTime.Now) +
                               ".BindingInfo.xml";
                     _catalog.Applications[app.Name].ExportBinding(spp, true);
@@ -835,7 +864,7 @@ namespace BTF.GUI
                     SqlServerName = connectForm.SqlServerName;
                     BizTalkDatabaseName = connectForm.BizTalkDatabaseName;
 
-                    ConnectServer();
+                    //ConnectServer();
                     
                     SetHealthInformation();
                     RefreshApplications();

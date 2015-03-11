@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("BTF.GUI")]
+[assembly: AssemblyTitle("BTFGui")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Unirobe Meeus ICT BV")]
-[assembly: AssemblyProduct("BTF.GUI")]
-[assembly: AssemblyCopyright("Copyright © Unirobe Meeus ICT BV 2014")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("BTFGui")]
+[assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

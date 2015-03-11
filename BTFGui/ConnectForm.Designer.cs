@@ -1,4 +1,4 @@
-﻿namespace BTF.GUI
+﻿namespace BTFGui
 {
     partial class ConnectForm
     {

@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace BTF.GUI
+namespace BTFGui
 {
     public partial class ConnectForm : Form
     {

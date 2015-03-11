@@ -1,8 +1,10 @@
 ﻿using BizTalkFactory.Management.Automation;
+using BTFGui.Enums;
+using BTFGui.ObjectModel;
 
-namespace BTF.GUI.BO
+namespace BTFGui.Converters
 {
-    public static class Extensions
+    public static class ServiceStateConverter
     {
         public static ServiceState ToServiceState(this BtsServiceState value)
         {
@@ -27,34 +29,6 @@ namespace BTF.GUI.BO
                 default:
                     return ServiceState.Unknown;
 
-            }
-        }
-
-        public static HostType ToHostType(this BtsHostType value)
-        {
-            switch (value)
-            {
-                case BtsHostType.InProcess:
-                    return HostType.InProcess;
-                case BtsHostType.Isolated:
-                    return HostType.Isolated;
-                default:
-                    return HostType.Invalid;
-            }
-        }
-
-        public static BApplicationStatus ToApplicationStatus(this BtsApplicationStatus value)
-        {
-            switch (value)
-            {
-                case BtsApplicationStatus.PartiallyStarted:
-                    return BApplicationStatus.PartiallyStarted;
-                case BtsApplicationStatus.Started:
-                    return BApplicationStatus.Started;
-                case BtsApplicationStatus.Stopped:
-                    return BApplicationStatus.Stopped;
-                default:
-                    return BApplicationStatus.NotApplicable;
             }
         }
     }

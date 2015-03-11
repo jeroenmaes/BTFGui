@@ -1,6 +1,6 @@
 # BTFGui
-A simple windows GUI for managing BizTalk Server, built upon the BizTalkFactory Management Automation SDK.
-Use it on your BizTalk Server to quickly do some administration, without the need to use the slow BizTalk Management Console.
+A simple windows GUI for managing BizTalk Server, built upon the BizTalkFactory Management Automation SDK (https://psbiztalk.codeplex.com).
+Use it on your (Development) BizTalk Server to quickly do some administration, without the need to use the often slow BizTalk Management Console.
 
 ![BTF GUI 0.1](http://i.imgur.com/xRezISe.png)
 
@@ -19,7 +19,7 @@ Use it on your BizTalk Server to quickly do some administration, without the nee
  * Export MSI's
 
 ## How does it work?
-The application is just a simple C# Winforms app that uses the [BizTalkFactory Management Automation SDK](https://psbiztalk.codeplex.com/#biztalkfactory_management_automation) to do it tasks.
+The application is a simple C# Winforms app that uses the [BizTalkFactory Management Automation SDK](https://psbiztalk.codeplex.com/#biztalkfactory_management_automation) to do it tasks.
 
 ## Disclaimer
 Make sure to have a backup of your complete environment when using this tool! Use at own risk...
@@ -28,4 +28,4 @@ Make sure to have a backup of your complete environment when using this tool! Us
 BTFGui is licensed under the [MIT License](https://github.com/joenmaes/BTFGui/blob/master/LICENSE) ([OSI](http://www.opensource.org/licenses/mit-license.php)). Basically you're free to do whatever you want with it. Attribution not necessary but appreciated.
 
 ## Dependencies
-BTFGui depends on the [BizTalkFactory PowerShell Provider](https://psbiztalk.codeplex.com). It works with version 1.4.0.1. Download and install it.
+BTFGui depends on the [BizTalkFactory PowerShell Provider](https://psbiztalk.codeplex.com). It works with version 1.4.0.1 and it is included as resource.

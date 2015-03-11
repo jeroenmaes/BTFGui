@@ -7,8 +7,8 @@
     <ProjectGuid>{F289A92F-C598-4BD6-87B8-ED6783B8E862}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BTF.GUI</RootNamespace>
-    <AssemblyName>BTF.GUI</AssemblyName>
+    <RootNamespace>BTFGui</RootNamespace>
+    <AssemblyName>BTFGui</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>
@@ -40,18 +40,19 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>BizTalk.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\BizTalk.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="BizTalkFactory.HealthAndActivity.Automation">
-      <HintPath>..\..\..\..\Program Files (x86)\BizTalkFactory PowerShell Provider\BizTalkFactory.HealthAndActivity.Automation.dll</HintPath>
+      <HintPath>ReferencedAssemblies\BizTalkFactory.HealthAndActivity.Automation.dll</HintPath>
     </Reference>
     <Reference Include="BizTalkFactory.Management.Automation">
-      <HintPath>..\..\..\..\Program Files (x86)\BizTalkFactory PowerShell Provider\BizTalkFactory.Management.Automation.dll</HintPath>
+      <HintPath>ReferencedAssemblies\BizTalkFactory.Management.Automation.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -62,9 +63,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BO\Application.cs" />
-    <Compile Include="BO\Extensions.cs" />
-    <Compile Include="BO\HostInstance.cs" />
+    <Compile Include="Converters\ServiceStateConverter.cs" />
+    <Compile Include="Converters\HostTypeConverter.cs" />
+    <Compile Include="Enums\ApplicationStatus.cs" />
+    <Compile Include="Enums\HostType.cs" />
+    <Compile Include="Enums\ServiceState.cs" />
+    <Compile Include="ObjectModel\Application.cs" />
+    <Compile Include="Converters\ApplicationStatusConverter.cs" />
+    <Compile Include="ObjectModel\HostInstance.cs" />
     <Compile Include="ConnectForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -93,6 +99,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -108,16 +115,15 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="BizTalk.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Icons\Running.ico">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Content Include="Resources\BizTalk.ico" />
+    <Content Include="Resources\Running.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Icons\Stopped.ico">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Content Include="Resources\Stopped.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

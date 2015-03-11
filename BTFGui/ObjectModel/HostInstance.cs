@@ -5,8 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using BizTalkFactory.Management.Automation;
 using System.Drawing;
+using BTFGui.Enums;
 
-namespace BTF.GUI.BO
+namespace BTFGui.ObjectModel
 {
     public class HostInstance
     {
@@ -19,10 +20,10 @@ namespace BTF.GUI.BO
             {
                 if (this.Status == ServiceState.Stopped || this.Status == ServiceState.StopPending)
                 {
-                    return StatusIcon = new Icon("Icons/Stopped.ico");
+                    return StatusIcon = new Icon("Resources/Stopped.ico");
                 }
 
-                return StatusIcon = new Icon("Icons/Running.ico");
+                return StatusIcon = new Icon("Resources/Running.ico");
             }
             private set
             {
@@ -36,23 +37,7 @@ namespace BTF.GUI.BO
         public ServiceState Status { get; set; }        
     }
 
-    public enum ServiceState
-    {
-        NotApplicable,
-        Stopped,
-        StartPending,
-        StopPending,
-        Running,
-        ContinuePending,
-        PausePending,
-        Paused,
-        Unknown,
-    }
+   
 
-    public enum HostType
-    {
-        Invalid,
-        InProcess,
-        Isolated,
-    }
+    
 }

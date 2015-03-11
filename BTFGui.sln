@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BTF.GUI", "BTF.GUI.csproj", "{F289A92F-C598-4BD6-87B8-ED6783B8E862}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BTFGui", "BTFGui\BTFGui.csproj", "{F289A92F-C598-4BD6-87B8-ED6783B8E862}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
